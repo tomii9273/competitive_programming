@@ -24,10 +24,8 @@ class UnionFind:  # DSU（disjoint set union, 素集合データ構造）と同�
             x, y = y, x
         self.parents[x] += self.parents[y]
         self.parents[y] = x
-        self.min_index_for_leader[x] = min(
-            self.min_index_for_leader[x], self.min_index_for_leader[y])
-        self.max_index_for_leader[x] = max(
-            self.max_index_for_leader[x], self.max_index_for_leader[y])
+        self.min_index_for_leader[x] = min(self.min_index_for_leader[x], self.min_index_for_leader[y])
+        self.max_index_for_leader[x] = max(self.max_index_for_leader[x], self.max_index_for_leader[y])
         return x
 
     def same(self, x, y):  # xとyが連結かどうか

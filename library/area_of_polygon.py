@@ -3,7 +3,7 @@
 def area_of_polygon(Ps, is_x2=False):
     ans = 0
     for i in range(len(Ps)):
-        ans += ((Ps[i][0] - Ps[i-1][0]) * (Ps[i][1] + Ps[i-1][1]))
+        ans += (Ps[i][0] - Ps[i - 1][0]) * (Ps[i][1] + Ps[i - 1][1])
     ans = abs(ans)
     if is_x2:
         return ans

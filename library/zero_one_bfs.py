@@ -1,6 +1,7 @@
 from collections import deque
+
 n = int(input())
-C = [list(map(int, input().split())) for i in range(n-1)]  # 木でない場合は変える
+C = [list(map(int, input().split())) for i in range(n - 1)]  # 木でない場合は変える
 
 for i in range(len(C)):  # 入力が 1-indexed の場合
     for j in range(2):
@@ -31,7 +32,7 @@ while len(Q) > 0:
         for j, dd in M[i]:
             if dd == 0:
                 if D[j] == -1:
-                    Q.appendleft((j, d+dd))
+                    Q.appendleft((j, d + dd))
             else:
                 if D[j] == -1:
-                    Q.append((j, d+dd))
+                    Q.append((j, d + dd))

@@ -3,7 +3,8 @@
 # 注意: https://atcoder.jp/contests/practice2/tasks/practice2_g で 3097 ms (制限時間 5000 ms)
 # 1000 ms 台の人も多いので、もっと速くできそう
 
-class scc():  # 有向グラフを強連結成分分解（互いに行き来できる領域ごとに区切る）する。
+
+class scc:  # 有向グラフを強連結成分分解（互いに行き来できる領域ごとに区切る）する。
     def __init__(self, n):  # 頂点数nのグラフを作成
         self.n = n
         self.M = [[] for i in range(n)]

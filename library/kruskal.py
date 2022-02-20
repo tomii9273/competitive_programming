@@ -10,7 +10,7 @@ sum_w = 0  # 最小全域木の重みの合計(構成できなかったら-1)
 U = UnionFind(n)
 e = 0
 for i in range(len(E)):
-    if e == n-1:
+    if e == n - 1:
         break
     if U.leader(E[i][0]) != U.leader(E[i][1]):
         U.merge(E[i][0], E[i][1])

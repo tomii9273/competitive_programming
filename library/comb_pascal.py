@@ -13,5 +13,5 @@ for i in range(le):
 
 for i in range(1, le):
     for j in range(1, le):
-        C[i][j] = C[i-1][j-1] + C[i-1][j]
+        C[i][j] = C[i - 1][j - 1] + C[i - 1][j]
         # C[i][j] %= mod

@@ -1,6 +1,8 @@
-alp = [[chr(i) for i in range(ord("a"), ord("z") + 1)],
-       [chr(i) for i in range(ord("A"), ord("Z") + 1)],
-       [str(i) for i in range(10)]]
+alp = [
+    [chr(i) for i in range(ord("a"), ord("z") + 1)],
+    [chr(i) for i in range(ord("A"), ord("Z") + 1)],
+    [str(i) for i in range(10)],
+]
 alpd = [{}, {}, {}]
 
 for i in range(3):
