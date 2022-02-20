@@ -13,4 +13,5 @@
             "source.organizedImports": true
         }
     },
+    "html.format.endWithNewline": true,
 }
