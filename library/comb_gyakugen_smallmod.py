@@ -2,7 +2,7 @@
 # modは素数である必要がある。
 
 mod = 3
-le = 3*10**5 + 3
+le = 3 * 10 ** 5 + 3
 
 
 def pow(x, y):  # x**y の mod を返す。modは素数でなくてもよい。
@@ -11,7 +11,7 @@ def pow(x, y):  # x**y の mod を返す。modは素数でなくてもよい。
     while y > 0:
         if y % 2 == 1:
             ans = (ans * x) % mod
-        x = (x**2) % mod
+        x = (x ** 2) % mod
         y //= 2
     return ans % mod
 
@@ -51,36 +51,36 @@ M = [(0, 1)]  # i!
 for i in range(1, le):
     M.append(mul_pair(M[-1], PA[i]))
 
-MI = [(0, 0)] * (le-1) + [div_pair(PA[1], M[le-1])]  # i!の逆元
-for i in range(le-2, -1, -1):
-    MI[i] = mul_pair(MI[i+1], PA[i+1])
+MI = [(0, 0)] * (le - 1) + [div_pair(PA[1], M[le - 1])]  # i!の逆元
+for i in range(le - 2, -1, -1):
+    MI[i] = mul_pair(MI[i + 1], PA[i + 1])
 
 
 def C(x, y):  # コンビネーション (組合せ, 二項係数)
     if y < 0 or y > x:
         return 0
     elif x >= le:  # O(min(y, x-y))
-        y = min(y, x-y)
+        y = min(y, x - y)
         ans = PA[1]
-        for i in range(x, x-y, -1):
+        for i in range(x, x - y, -1):
             ans = mul_pair(ans, int_to_pair(i))
         return pair_to_int(mul_pair(ans, MI[y]))
     else:  # O(1)
-        return pair_to_int(mul_pair(mul_pair(M[x], MI[y]), MI[x-y]))
+        return pair_to_int(mul_pair(mul_pair(M[x], MI[y]), MI[x - y]))
 
 
 def H(x, y):  # 重複組合せ、x + y < le にすることに注意
-    return C(x+y-1, y)
+    return C(x + y - 1, y)
 
 
 def P(x, y):  # パーミュテーション (順列)
     if y < 0 or y > x:
         return 0
     elif x >= le:  # O(min(y, x-y))
-        y = min(y, x-y)
+        y = min(y, x - y)
         ans = PA[1]
-        for i in range(x, x-y, -1):
+        for i in range(x, x - y, -1):
             ans = mul_pair(ans, int_to_pair(i))
         return pair_to_int(ans)
     else:  # O(1)
-        return pair_to_int(mul_pair(M[x], MI[x-y]))
+        return pair_to_int(mul_pair(M[x], MI[x - y]))

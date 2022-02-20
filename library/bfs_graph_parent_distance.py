@@ -1,5 +1,5 @@
 n = int(input())
-C = [list(map(int, input().split())) for i in range(n-1)]  # 木でない場合は変える
+C = [list(map(int, input().split())) for i in range(n - 1)]  # 木でない場合は変える
 
 for i in range(len(C)):  # 入力が 1-indexed の場合
     for j in range(2):
@@ -24,9 +24,9 @@ while ind < len(Q):
     i, d = Q[ind]
     for x in M[i]:
         if D[x] == -1:
-            D[x] = d+1
+            D[x] = d + 1
             P[x] = i
-            Q.append((x, d+1))
+            Q.append((x, d + 1))
     ind += 1
 
 
@@ -34,7 +34,7 @@ while ind < len(Q):
 
 
 n = int(input())
-C = [list(map(int, input().split())) for i in range(n-1)]  # 木でない場合は変える
+C = [list(map(int, input().split())) for i in range(n - 1)]  # 木でない場合は変える
 
 for i in range(len(C)):  # 入力が 1-indexed の場合
     for j in range(2):
@@ -62,9 +62,9 @@ while ind < len(Q):
     for x in M[i]:
         if D[x] == -1:
             is_tail = False
-            D[x] = d+1
+            D[x] = d + 1
             P[x] = i
-            Q.append((x, d+1))
+            Q.append((x, d + 1))
     if is_tail:
         TQ.append(i)
     ind += 1

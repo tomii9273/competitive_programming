@@ -4,7 +4,7 @@ from scipy.sparse.csgraph import floyd_warshall
 #     for j in range(2):
 #         C[i][j] -= 1
 
-big = 10**20  # 距離infを示す数(必要以上に大きくしない)
+big = 10 ** 20  # 距離infを示す数(必要以上に大きくしない)
 
 M = [[big] * n for i in range(n)]
 

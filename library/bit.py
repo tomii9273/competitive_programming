@@ -7,9 +7,9 @@ class Bit:  # Fenwick Tree と同じ
     def __getitem__(self, i):  # [i]でi番目の値を得られるようにした
         if i < 0:
             i %= self.size
-        return self.sum(i, i+1)
+        return self.sum(i, i + 1)
 
-    def sum(self, ll=0, rr=10**9):  # [ll, rr)の和を求める
+    def sum(self, ll=0, rr=10 ** 9):  # [ll, rr)の和を求める
         # 内部的には[ll+1, rr+1)の和、つまり(rrまでの和)-(llまでの和)
         rr = min(rr, self.size)
         s = 0
@@ -22,7 +22,7 @@ class Bit:  # Fenwick Tree と同じ
         return s
 
     def val(self, i):  # i番目の値を返す
-        return self.sum(i, i+1)
+        return self.sum(i, i + 1)
 
     def add(self, i, x):  # i番目にxを足す
         i += 1
@@ -31,13 +31,13 @@ class Bit:  # Fenwick Tree と同じ
             i += i & -i  # 2進数の最も下位の1を繰り上げるという意味(例:1010→1100)
 
     def sett(self, i, x):  # i番目をxにする
-        self.add(i, x - self.sum(i, i+1))
+        self.add(i, x - self.sum(i, i + 1))
 
     def print_bit(self):  # 内部状態をindex順に出力
-        print([self.sum(i, i+1) for i in range(self.size)])
+        print([self.sum(i, i + 1) for i in range(self.size)])
 
     def print_sum(self):  # 累積和をindex順に出力
-        print([self.sum(0, i+1) for i in range(self.size)])
+        print([self.sum(0, i + 1) for i in range(self.size)])
 
     def lower_bound_left(self, w):  # xまでの和がw以上となる最小のx、総和がw未満の場合nが返る
         n = self.size
@@ -49,8 +49,8 @@ class Bit:  # Fenwick Tree と同じ
             r *= 2
         le = r
         while le > 0:
-            if (x + le < n and self.tree[x+le] < w):
-                w -= self.tree[x+le]
+            if x + le < n and self.tree[x + le] < w:
+                w -= self.tree[x + le]
                 x += le
             le //= 2
         return x
@@ -65,8 +65,8 @@ class Bit:  # Fenwick Tree と同じ
             r *= 2
         le = r
         while le > 0:
-            if (x + le < n and self.tree[x+le] <= w):
-                w -= self.tree[x+le]
+            if x + le < n and self.tree[x + le] <= w:
+                w -= self.tree[x + le]
                 x += le
             le //= 2
         return x
@@ -98,16 +98,13 @@ class Bit2d:  # 2次元BIT
         return s
 
     def sum1(self, i0, i1, j0, j1):  # [i0,i1)行内の[j0,j1)列の総和
-        return self.sum0(i1, j1) - self.sum0(i0, j1) \
-            - self.sum0(i1, j0) + self.sum0(i0, j0)
+        return self.sum0(i1, j1) - self.sum0(i0, j1) - self.sum0(i1, j0) + self.sum0(i0, j0)
 
     def print_bit(self):  # 内部状態を出力
-        print([[self.sum1(i, i+1, j, j+1) for j in range(self.w)]
-              for i in range(self.h)])
+        print([[self.sum1(i, i + 1, j, j + 1) for j in range(self.w)] for i in range(self.h)])
 
     def print_sum(self):  # 2次元累積和を出力
-        print([[self.sum0(i+1, j+1) for j in range(self.w)]
-              for i in range(self.h)])
+        print([[self.sum0(i + 1, j + 1) for j in range(self.w)] for i in range(self.h)])
 
 
 # B = Bit(8)

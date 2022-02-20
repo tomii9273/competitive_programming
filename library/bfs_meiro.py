@@ -21,10 +21,9 @@ while s < len(Q):
     for t in D:
         di = t[0]
         dj = t[1]
-        if 0 <= i+di < h and 0 <= j+dj < w \
-                and V[i+di][j+dj] == -1 and C[i+di][j+dj] == ".":
-            V[i+di][j+dj] = d+1
-            Q.append([i+di, j+dj, d+1])
+        if 0 <= i + di < h and 0 <= j + dj < w and V[i + di][j + dj] == -1 and C[i + di][j + dj] == ".":
+            V[i + di][j + dj] = d + 1
+            Q.append([i + di, j + dj, d + 1])
     s += 1
 
 print(V[gi][gj])

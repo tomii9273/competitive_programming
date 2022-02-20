@@ -10,8 +10,8 @@ for i in range(n):
     PS[i][0] = P[i]
 for i in range(1, le):
     for j in range(n):
-        if PS[j][i-1] != -1:
-            PS[j][i] = PS[PS[j][i-1]][i-1]
+        if PS[j][i - 1] != -1:
+            PS[j][i] = PS[PS[j][i - 1]][i - 1]
 
 
 def lca(i, j):  # iとjの最小共通祖先を求める
@@ -30,8 +30,8 @@ def lca(i, j):  # iとjの最小共通祖先を求める
         return i
 
     ans = 0
-    mul = 2 ** (len(PS[i])-1)
-    for ind in range(len(PS[0])-1, -1, -1):
+    mul = 2 ** (len(PS[i]) - 1)
+    for ind in range(len(PS[0]) - 1, -1, -1):
         if PS[i][ind] != -1 and PS[i][ind] != PS[j][ind]:
             ans += mul
             i = PS[i][ind]

@@ -38,11 +38,11 @@ def hakidashi(M, t=False, eps=1e-9):
             M[[indr, ind]] = M[[ind, indr]]
             ZRi[indr], ZRi[ind] = ZRi[ind], ZRi[indr]
         M[indr] /= M[indr, i]
-        for j in range(indr+1, n):
+        for j in range(indr + 1, n):
             M[j] -= M[indr] * M[j, i]
         indr += 1
         if indr == n:
-            ZC[i+1:] = 0
+            ZC[i + 1 :] = 0
             break
     r = sum(ZC)
     return M, r, ZR, ZC
@@ -53,7 +53,11 @@ for _ in range(1000):
     M = np.random.randint(-2, 2, (2, 4))
     r0 = np.linalg.matrix_rank(M)
     MD, r, ZR, ZC = hakidashi(M, 0)
-    if r != r0 or r != sum(ZR) or r != sum(ZC) or \
-            (M[ZR][:, ZC].shape != (0, 0) and np.linalg.matrix_rank(M[ZR][:, ZC]) != r):
+    if (
+        r != r0
+        or r != sum(ZR)
+        or r != sum(ZC)
+        or (M[ZR][:, ZC].shape != (0, 0) and np.linalg.matrix_rank(M[ZR][:, ZC]) != r)
+    ):
         print(M, np.linalg.matrix_rank(M), r0, MD, r, ZR, ZC)
         break

@@ -1,10 +1,13 @@
 import sys
+
+
 # sys.setrecursionlimit(10 ** 9)  # Codeforcesでは350000程度に
-def input(): return sys.stdin.readline().strip()
+def input():
+    return sys.stdin.readline().strip()
 
 
 n = int(input())
-C = [list(map(int, input().split())) for i in range(n-1)]
+C = [list(map(int, input().split())) for i in range(n - 1)]
 
 for i in range(len(C)):  # 入力が 1-indexed の場合
     for j in range(2):
@@ -12,7 +15,7 @@ for i in range(len(C)):  # 入力が 1-indexed の場合
 
 
 M = [[] for i in range(n)]
-for i in range(n-1):
+for i in range(n - 1):
     M[C[i][0]].append(C[i][1])
     M[C[i][1]].append(C[i][0])  # 有向グラフの場合は削除！！
 
@@ -26,12 +29,12 @@ V_out = []  # 出た順に頂点番号を記録
 
 def dfs(i, d):
     V_in.append(i)
-    for j in range(len(M[i])-1, -1, -1):
+    for j in range(len(M[i]) - 1, -1, -1):
         x = M[i][j]
         if D[x] == -1:
-            D[x] = d+1
+            D[x] = d + 1
             P[x] = i
-            ST.append((x, d+1))
+            ST.append((x, d + 1))
             end_count[i] += 1
 
 

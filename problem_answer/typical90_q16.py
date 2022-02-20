@@ -30,9 +30,9 @@ def crt(R, M):
     return (r % m, m)
 
 
-ans = 10**4
-for i in range(min(n//a + 1, 10**4)):
-    nn = n - a*i
+ans = 10 ** 4
+for i in range(min(n // a + 1, 10 ** 4)):
+    nn = n - a * i
     ans_now = i
     re, q = crt([nn % b, 0], [b, c])
     if q != 0 and nn - re >= 0:

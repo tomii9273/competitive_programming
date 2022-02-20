@@ -1,21 +1,26 @@
 # dfs_no_recursion.py が dfs_tree_parent_distance_descendant.py と同様に動くかの確認
 
 import sys
+
 sys.setrecursionlimit(10 ** 9)  # Codeforcesでは350000程度に
-def input(): return sys.stdin.readline().strip()
+
+
+def input():
+    return sys.stdin.readline().strip()
 
 
 # n頂点の木をランダムに作成し、辺のリスト(1-indexed)を返す。
 def make_random_tree(n):
     from random import randint, shuffle
+
     A = []
-    for i in range(n-1):
-        A.append([randint(1, i+1), i+2])
+    for i in range(n - 1):
+        A.append([randint(1, i + 1), i + 2])
     B = [i for i in range(n)]
     shuffle(B)
-    for i in range(n-1):
+    for i in range(n - 1):
         for j in range(2):
-            A[i][j] = B[A[i][j]-1] + 1
+            A[i][j] = B[A[i][j] - 1] + 1
         shuffle(A[i])
     shuffle(A)
     return A
@@ -30,7 +35,7 @@ for i in range(len(C)):  # 入力が 1-indexed の場合
 
 
 M = [[] for i in range(n)]
-for i in range(n-1):
+for i in range(n - 1):
     M[C[i][0]].append(C[i][1])
     M[C[i][1]].append(C[i][0])  # 有向グラフの場合は削除！！
 
@@ -48,9 +53,9 @@ def dfs(i, d):
     dn = 1
     for x in M[i]:
         if D[x] == -1:
-            D[x] = d+1
+            D[x] = d + 1
             P[x] = i
-            dn += dfs(x, d+1)
+            dn += dfs(x, d + 1)
     DN[i] = dn
     V_out.append(i)
     return dn
@@ -71,12 +76,12 @@ V_out_1 = []  # 出た順に頂点番号を記録
 
 def dfs_1(i, d):
     V_in_1.append(i)
-    for j in range(len(M[i])-1, -1, -1):
+    for j in range(len(M[i]) - 1, -1, -1):
         x = M[i][j]
         if D_1[x] == -1:
-            D_1[x] = d+1
+            D_1[x] = d + 1
             P_1[x] = i
-            ST.append((x, d+1))
+            ST.append((x, d + 1))
             end_count[i] += 1
 
 

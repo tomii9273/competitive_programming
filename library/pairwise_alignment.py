@@ -1,6 +1,10 @@
 import sys
+
 # sys.setrecursionlimit(10 ** 9)  # Codeforcesでは350000程度に
-def input(): return sys.stdin.readline().strip()
+
+
+def input():
+    return sys.stdin.readline().strip()
 
 
 # 文字列s,tの中に適切に空白文字を挿入して長さを揃える (=ペアワイズアラインメントを行う) ことで、
@@ -14,7 +18,7 @@ t = input()
 
 # パラメータここから
 
-big = 10**5  # 途中で取り得るスコアの最小値の絶対値より大きく
+big = 10 ** 5  # 途中で取り得るスコアの最小値の絶対値より大きく
 sp = "-"  # 空白文字
 pena_sp = -5  # 空白文字との類似度
 
@@ -32,22 +36,22 @@ n = len(s)
 m = len(t)
 
 
-D = [[-big] * (m+1) for i in range(n+1)]
-E = [[-1] * (m+1) for i in range(n+1)]
+D = [[-big] * (m + 1) for i in range(n + 1)]
+E = [[-1] * (m + 1) for i in range(n + 1)]
 
 D[0][0] = 0
 
-for i in range(n+1):
-    for j in range(m+1):
+for i in range(n + 1):
+    for j in range(m + 1):
         if i == 0 and j == 0:
             continue
         K = []
         if j > 0:
-            K.append([D[i][j-1] + pena_sp, 0])
+            K.append([D[i][j - 1] + pena_sp, 0])
         if i > 0:
-            K.append([D[i-1][j] + pena_sp, 1])
+            K.append([D[i - 1][j] + pena_sp, 1])
         if j > 0 and i > 0:
-            K.append([D[i-1][j-1] + diff(i-1, j-1), 2])
+            K.append([D[i - 1][j - 1] + diff(i - 1, j - 1), 2])
         K.sort(reverse=True)
         D[i][j] = K[0][0]
         E[i][j] = K[0][1]

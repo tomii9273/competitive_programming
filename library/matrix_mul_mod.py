@@ -1,6 +1,6 @@
 import numpy as np
 
-mod = 10**9 + 7
+mod = 10 ** 9 + 7
 
 # 参考：https://atcoder.jp/contests/abc199/submissions/22086320
 

@@ -1,4 +1,5 @@
 from math import gcd
+
 # AtCoderのPython3.8.2やPyPy3(Python3.7.3)だとこちらがよい
 
 # from fractions import gcd

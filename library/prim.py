@@ -19,7 +19,7 @@ V_is_used[s] = True
 for i in range(len(M[s])):
     heappush(Q, (M[s][i][1], s, M[s][i][0]))
 
-for i in range(n-1):
+for i in range(n - 1):
     while len(Q) > 0 and (V_is_used[Q[0][1]] and V_is_used[Q[0][2]]):
         heappop(Q)
 

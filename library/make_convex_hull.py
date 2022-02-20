@@ -17,6 +17,6 @@ def make_convex_hull(P):
                 else:
                     break
             S[i].append(P[j][:])
-    for j in range(len(S[1])-2, 0, -1):
+    for j in range(len(S[1]) - 2, 0, -1):
         S[0].append(S[1][j][:])
     return S[0]
