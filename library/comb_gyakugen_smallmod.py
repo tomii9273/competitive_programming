@@ -59,7 +59,7 @@ for i in range(le-2, -1, -1):
 def C(x, y):  # コンビネーション (組合せ, 二項係数)
     if y < 0 or y > x:
         return 0
-    elif x > le:  # O(min(y, x-y))
+    elif x >= le:  # O(min(y, x-y))
         y = min(y, x-y)
         ans = PA[1]
         for i in range(x, x-y, -1):
