@@ -63,7 +63,7 @@ def C(x, y):  # コンビネーション (組合せ, 二項係数)
         y = min(y, x-y)
         ans = PA[1]
         for i in range(x, x-y, -1):
-            ans = mul_pair(ans * PA[i])
+            ans = mul_pair(ans, int_to_pair(i))
         return pair_to_int(mul_pair(ans, MI[y]))
     else:  # O(1)
         return pair_to_int(mul_pair(mul_pair(M[x], MI[y]), MI[x-y]))
