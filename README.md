@@ -1,6 +1,8 @@
 # competitive_programming リポジトリ
 
-競技プログラミング ([AtCoder](https://atcoder.jp/) など) のソースコードなどを保存します。
+- 競技プログラミング ([AtCoder](https://atcoder.jp/) など) のソースコードなどを保存します。
+- ライセンス: パブリックドメイン (CC0 1.0)
+- バグや誤ったコメントが含まれている可能性があります。
 
 ## problem_answer
 
