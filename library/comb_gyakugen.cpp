@@ -66,7 +66,7 @@ struct Combi
     {
       return 0;
     }
-    else if (x > le) // O(min(y, x-y))
+    else if (x >= le) // O(min(y, x-y))
     {
       y = min(y, x - y);
       ll ans = 1;
@@ -95,7 +95,7 @@ struct Combi
     {
       return 0;
     }
-    else if (x > le) // O(min(y, x-y))
+    else if (x >= le) // O(min(y, x-y))
     {
       y = min(y, x - y);
       ll ans = 1;

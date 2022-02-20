@@ -36,7 +36,7 @@ for i in range(le-2, -1, -1):
 def C(x, y):  # コンビネーション (組合せ, 二項係数)
     if y < 0 or y > x:
         return 0
-    elif x > le:  # O(min(y, x-y))
+    elif x >= le:  # O(min(y, x-y))
         y = min(y, x-y)
         ans = 1
         for i in range(x, x-y, -1):
@@ -55,7 +55,7 @@ def H(x, y):  # 重複組合せ、x + y < le にすることに注意
 def P(x, y):  # パーミュテーション (順列)
     if y < 0 or y > x:
         return 0
-    elif x > le:  # O(min(y, x-y))
+    elif x >= le:  # O(min(y, x-y))
         y = min(y, x-y)
         ans = 1
         for i in range(x, x-y, -1):
