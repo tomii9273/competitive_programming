@@ -76,11 +76,11 @@ def H(x, y):  # 重複組合せ、x + y < le にすることに注意
 def P(x, y):  # パーミュテーション (順列)
     if y < 0 or y > x:
         return 0
-    elif x > le:  # O(min(y, x-y))
+    elif x >= le:  # O(min(y, x-y))
         y = min(y, x-y)
         ans = PA[1]
         for i in range(x, x-y, -1):
-            ans = mul_pair(ans * PA[i])
+            ans = mul_pair(ans, int_to_pair(i))
         return pair_to_int(ans)
     else:  # O(1)
         return pair_to_int(mul_pair(M[x], MI[x-y]))
