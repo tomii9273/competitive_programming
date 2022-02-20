@@ -4,6 +4,10 @@
     "python.linting.enabled": true,
     "editor.formatOnSave": true,
     "python.formatting.provider": "black",
+    "python.formatting.blackArgs": [
+        "--line-length",
+        "119"
+    ],
     "[python]": {
         "editor.codeActionsOnSave": {
             "source.organizedImports": true
