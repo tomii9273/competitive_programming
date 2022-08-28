@@ -10,7 +10,7 @@
     ],
     "[python]": {
         "editor.codeActionsOnSave": {
-            "source.organizedImports": true
+            "source.organizeImports": true
         }
     },
     "files.insertFinalNewline": true,

@@ -1,4 +1,4 @@
-from heapq import heappush, heappop
+from heapq import heappop, heappush
 
 # O((V+E)logV) = O(ElogV)
 # Eは[始点, 終点, 重み]のリスト。始点と終点を逆にしたものが入っている必要はない。

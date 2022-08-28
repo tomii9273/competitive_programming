@@ -1,6 +1,5 @@
 import numpy as np
 
-
 # ※ACを確認していない（https://atcoder.jp/contests/zone2021/tasks/zone2021_f で使おうとしたがTLE）
 
 # 行列M(n行m列とする)に対して掃き出し法(Gauss-Jordanの消去法)(行基本変形で)

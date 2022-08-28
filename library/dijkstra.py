@@ -1,7 +1,7 @@
 # O((V+E)logV) = O(ElogV)
 # Cは [[スタート頂点, ゴール頂点, 重み], ...] のリスト
 
-from heapq import heappush, heappop
+from heapq import heappop, heappush
 
 M = [[] for i in range(n)]
 for i in range(len(C)):
