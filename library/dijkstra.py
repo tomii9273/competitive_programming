@@ -3,6 +3,10 @@
 
 from heapq import heappop, heappush
 
+for i in range(len(C)):  # 入力が 1-indexed の場合
+    for j in range(2):
+        C[i][j] -= 1
+
 M = [[] for i in range(n)]
 for i in range(len(C)):
     M[C[i][0]].append((C[i][1], C[i][2]))
