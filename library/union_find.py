@@ -4,6 +4,7 @@ class UnionFind:  # DSU（disjoint set union, 素集合データ構造）と同�
         self.parents = [-1] * n
         self.min_index_for_leader = [i for i in range(n)]
         self.max_index_for_leader = [i for i in range(n)]
+        self._n_cc = n
 
     def leader(self, x):  # xが属する連結成分の代表元
         if self.parents[x] < 0:
@@ -20,6 +21,7 @@ class UnionFind:  # DSU（disjoint set union, 素集合データ構造）と同�
         y = self.leader(y)
         if x == y:
             return x
+        self._n_cc -= 1
         if self.parents[x] > self.parents[y]:
             x, y = y, x
         self.parents[x] += self.parents[y]
@@ -45,9 +47,8 @@ class UnionFind:  # DSU（disjoint set union, 素集合データ構造）と同�
             ANS[leader_index[ld]].append(i)
         return ANS
 
-    def n_cc(self):  # グラフ全体の連結成分の数
-        A = [i for i in self.parents if i < 0]
-        return len(A)
+    def n_cc(self):  # グラフ全体の連結成分の数 (O(1))
+        return self._n_cc
 
     def min_index(self, x):  # xが属する連結成分の最小の元
         return self.min_index_for_leader[self.leader(x)]
