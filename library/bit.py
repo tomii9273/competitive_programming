@@ -1,8 +1,16 @@
 # ACLに伴い0-indexedに直した
 class Bit:  # Fenwick Tree と同じ
-    def __init__(self, n):
-        self.size = n
-        self.tree = [0] * (n + 1)
+    def __init__(self, n_or_A):
+        if isinstance(n_or_A, int):
+            self.size = n_or_A
+            self.tree = [0] * (self.size + 1)
+        else:
+            self.size = len(n_or_A)
+            self.tree = [0] + n_or_A
+            for i in range(1, self.size + 1):
+                upper = i + (i & -i)
+                if upper <= self.size:
+                    self.tree[upper] += self.tree[i]
 
     def __getitem__(self, i):  # [i]でi番目の値を得られるようにした
         if i < 0:
