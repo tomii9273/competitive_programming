@@ -38,7 +38,7 @@ class Bit:  # Fenwick Tree と同じ
             self.tree[i] += x
             i += i & -i  # 2進数の最も下位の1を繰り上げるという意味(例:1010→1100)
 
-    def sett(self, i, x):  # i番目をxにする
+    def set(self, i, x):  # i番目をxにする
         self.add(i, x - self.sum(i, i + 1))
 
     def print_bit(self):  # 内部状態をindex順に出力
