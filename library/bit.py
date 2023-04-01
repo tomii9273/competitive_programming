@@ -11,6 +11,10 @@ class Bit:  # Fenwick Tree と同じ
                 upper = i + (i & -i)
                 if upper <= self.size:
                     self.tree[upper] += self.tree[i]
+        r = 1
+        while r < self.size:
+            r *= 2
+        self.r = r // 2  # size に達しない最大の2べき (ただし size = 1 ならば 0)
 
     def __getitem__(self, i):  # [i]でi番目の値を得られるようにした
         if i < 0:
@@ -49,13 +53,10 @@ class Bit:  # Fenwick Tree と同じ
 
     def lower_bound_left(self, w):  # xまでの和がw以上となる最小のx、総和がw未満の場合nが返る
         n = self.size
-        r = 1
         x = 0
         if self.sum(0, n) < w:
             return n
-        while r < n:
-            r *= 2
-        le = r
+        le = self.r
         while le > 0:
             if x + le < n and self.tree[x + le] < w:
                 w -= self.tree[x + le]
@@ -65,13 +66,10 @@ class Bit:  # Fenwick Tree と同じ
 
     def upper_bound_left(self, w):  # xまでの和がwより大きくなる最小のx、総和がw以下の場合nが返る
         n = self.size
-        r = 1
         x = 0
         if self.sum(0, n) <= w:
             return n
-        while r < n:
-            r *= 2
-        le = r
+        le = self.r
         while le > 0:
             if x + le < n and self.tree[x + le] <= w:
                 w -= self.tree[x + le]
