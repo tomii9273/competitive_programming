@@ -31,7 +31,7 @@ def is_prime_miller_test(n: int) -> bool:
             break
         x = pow(a, d, n)
         for _ in range(s):
-            y = (x ** 2) % n
+            y = pow(x, 2, n)
             if y == 1 and x != 1 and x != n - 1:
                 return False
             x = y
@@ -54,7 +54,7 @@ def ro(n: int) -> int:
     for c in range(1, 100):
 
         def f(x):
-            return (x ** 2 + c) % n
+            return (pow(x, 2, n) + c) % n
 
         x = 0
         y = 0
