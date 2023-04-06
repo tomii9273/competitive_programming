@@ -1,6 +1,6 @@
 # 参考: https://mathtrain.jp/kyorenketsu#:~:text=%E5%BC%B7%E9%80%A3%E7%B5%90%E6%88%90%E5%88%86%E5%88%86%E8%A7%A3%E3%81%A8,%E9%80%A3%E7%B5%90%E6%88%90%E5%88%86%EF%BC%89%E3%81%AB%E5%B1%9E%E3%81%97%E3%81%BE%E3%81%99%E3%80%82
 
-# 注意: https://atcoder.jp/contests/practice2/tasks/practice2_g で 3097 ms (制限時間 5000 ms)
+# 注意: https://atcoder.jp/contests/practice2/tasks/practice2_g で 2850 ms (制限時間 5000 ms)
 # 1000 ms 台の人も多いので、もっと速くできそう
 
 
@@ -46,15 +46,16 @@ class scc:  # 有向グラフを強連結成分分解（互いに行き来でき
             if V[i] == -1:
                 cnt = self._dfs_numbering(i, self.M, V, ANS, cnt, 0)
 
-        ANS1 = [[ANS[i], i] for i in range(n)]
-        ANS1.sort(reverse=True)
+        ANS1 = [-1] * n
+        for i in range(n):
+            ANS1[ANS[i]] = i
 
         V = [-1] * n
         ANS = [-1] * n
         v = 0
-        for i in range(n):
-            if V[ANS1[i][1]] == -1:
-                _ = self._dfs_numbering(ANS1[i][1], self.IM, V, ANS, 0, v)
+        for i in range(n - 1, -1, -1):
+            if V[ANS1[i]] == -1:
+                _ = self._dfs_numbering(ANS1[i], self.IM, V, ANS, 0, v)
                 v += 1
 
         FANS = [[] for i in range(v)]
