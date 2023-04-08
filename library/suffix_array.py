@@ -149,3 +149,49 @@ def sa_is(s_num: list) -> list:
     bac = bac[1:]  # 接尾辞配列の先頭は終端文字なので削除
 
     return bac
+
+
+def make_suffix_array(s_num: list) -> list:
+    """
+    Manber & Myers のアルゴリズム。
+    整数からなるリストs_numを入力すると、s_numの接尾辞配列を出力する。
+    n = len(s_num) とすると、時間計算量:O(n * (log n)^2)
+    """
+    n = len(s_num)
+
+    # 最小値が0となるようにシフト
+    shift = -min(s_num)
+    for i in range(n):
+        s_num[i] += shift
+
+    ANS = [-1] * n
+
+    L = [[-1, -1, i] for i in range(n)]
+    for i in range(n):
+        L[i][1] = s_num[i]
+    L.sort()
+    ind = 0
+    for i in range(n):
+        if i > 0 and L[i][:2] != L[i - 1][:2]:
+            ind += 1
+        ANS[L[i][2]] = ind
+
+    shift = 1
+    while shift < n:
+        for i in range(n):
+            L[i][0] = L[i][1]
+        for i in range(n):
+            L[i][1] = ANS[L[i][2] + shift] if L[i][2] + shift < n else -1
+        L.sort()
+
+        ind = 0
+        for i in range(n):
+            if i > 0 and L[i][:2] != L[i - 1][:2]:
+                ind += 1
+            ANS[L[i][2]] = ind
+        for i in range(n):
+            L[i][1] = ANS[L[i][2]]
+
+        shift *= 2
+
+    return [L[i][2] for i in range(n)]
