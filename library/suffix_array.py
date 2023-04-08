@@ -1,5 +1,9 @@
 def sa_is(s_num: list) -> list:
-    """SA-IS法。整数からなるリストs_numを入力すると、s_numの接尾辞配列を出力する。時間計算量:O(s_num)"""
+    """
+    SA-IS法。
+    整数からなるリストs_numを入力すると、s_numの接尾辞配列を出力する。
+    n = len(s_num), m = max(s_num) とすると、時間計算量:O(n * m)
+    """
     n = len(s_num)  # リスト長
 
     # 最小値が1となるようにシフト
