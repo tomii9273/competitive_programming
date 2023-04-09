@@ -156,6 +156,7 @@ def make_suffix_array(s_num: list) -> list:
     Manber & Myers のアルゴリズム。
     整数からなるリストs_numを入力すると、s_numの接尾辞配列を出力する。
     n = len(s_num) とすると、時間計算量:O(n * (log n)^2)
+    参考:『プログラミングコンテストチャレンジブック 第2版』(蟻本) P.336-337
     """
     n = len(s_num)
 
