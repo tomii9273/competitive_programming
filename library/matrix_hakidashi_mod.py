@@ -6,7 +6,7 @@ def inv(x, mod):
     return pow(x, mod - 2, mod)
 
 
-def det(C, mod):
+def det_matrix(C, mod):
     """
     正方行列 C の行列式を mod (素数) で求める。
     掃き出し法 (ガウス・ジョルダンの消去法) を用いて (行基本変形を繰り返して) 、上三角行列にし、対角成分の積を求める。
@@ -16,6 +16,7 @@ def det(C, mod):
     ans = 1
 
     for i in range(n):
+        # ピボット選択
         ind = -1
         for j in range(i, n):
             if C[j][i] != 0:
@@ -24,10 +25,14 @@ def det(C, mod):
         if ind == -1:
             ans = 0
             break
+
+        # 行を入れ替える場合、行列式に -1 を掛ける
         elif ind != i:
             ans *= -1
             ans %= mod
+
         C[i], C[ind] = C[ind], C[i]
+
         invf = inv(C[i][i], mod)
         ans *= C[i][i]
         ans %= mod
@@ -43,7 +48,8 @@ def det(C, mod):
 def inv_matrix(C, mod):
     """
     正方行列 C の逆行列を mod (素数) で求める。存在しない場合は -1 を返す。
-    掃き出し法 (ガウス・ジョルダンの消去法) を用いて (行基本変形を繰り返して) 、N × 2N 行列 (C I) を (I C^-1) に変形する (I は単位行列) 。
+    掃き出し法 (ガウス・ジョルダンの消去法) を用いて (行基本変形を繰り返して) 、
+    N × 2N 行列 (C I) を (I C^-1) に変形する (I は単位行列) 。
     時間計算量: O(N^3) (C を N × N 正方行列としたとき)
     """
     n = len(C)
@@ -54,6 +60,7 @@ def inv_matrix(C, mod):
         C[i][n + i] = 1
 
     for i in range(n):
+        # ピボット選択
         ind = -1
         for j in range(i, n):
             if C[j][i] != 0:
@@ -63,6 +70,8 @@ def inv_matrix(C, mod):
             return -1
 
         C[i], C[ind] = C[ind], C[i]
+
+        # 対角成分が 1 になるように、行を定数倍する
         invf = inv(C[i][i], mod)
         for j in range(i, 2 * n):
             C[i][j] *= invf
