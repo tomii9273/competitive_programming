@@ -1,6 +1,52 @@
 # 定数倍でTLEすることがある。ACLのsegtreeを使ったほうがよい。
 
 
+def e():
+    # 単位元を返すようにする。以下は最小値を求める場合の例。
+    return float("inf")
+
+
+def op(a, b):
+    # 木に入っているもの a, b の演算を返すようにする (演算は結合法則を満たす必要があるが、可換でなくてもよい) 。以下は最小値を求める場合の例。
+    return min(a, b)
+
+
+class Segtree:
+    def __init__(self, n):
+        # sizeは最初に定めたサイズ、size2は2の累乗の値をとるサイズ(>=size)
+        self.size = n
+        i = 1
+        while i < n:
+            i *= 2
+        self.tree = [e() for _ in range(2 * i - 1)]
+        self.size2 = i
+        self.f = e()
+
+    def __getitem__(self, i):  # [i]でi番目の値を得られるようにした
+        if i < 0:
+            i %= self.size
+        return self.op(i, i + 1)
+
+    def update(self, i, x):  # i番目の値をxに更新
+        j = self.size2 + i - 1
+        self.tree[j] = x
+        while j > 0:
+            j = (j - 1) // 2
+            self.tree[j] = op(self.tree[2 * j + 1], self.tree[2 * j + 2])
+
+    def op(self, a, b, k=0, ll=0, rr=None):  # 区間[a, b)の演算結果を返す
+        if rr is None:
+            rr = self.size2
+        if rr <= a or b <= ll:
+            return self.f
+        elif a <= ll and rr <= b:
+            return self.tree[k]
+        else:
+            vl = self.op(a, b, 2 * k + 1, ll, (ll + rr) // 2)
+            vr = self.op(a, b, 2 * k + 2, (ll + rr) // 2, rr)
+            return op(vl, vr)
+
+
 class SegtreeMin:  # 最小値を求める用
     def __init__(self, n, f=float("inf")):
         # sizeは最初に定めたサイズ、size2は2の累乗の値をとるサイズ(>=size)、fは初期値
