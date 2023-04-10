@@ -33,10 +33,10 @@ def det_matrix(C: list, mod: int) -> int:
 
         C[i], C[ind] = C[ind], C[i]
 
-        invf = inv(C[i][i], mod)
         ans *= C[i][i]
         ans %= mod
 
+        invf = inv(C[i][i], mod)
         for j in range(i + 1, n):
             factor = C[j][i] * invf % mod
             for k in range(i, n):
