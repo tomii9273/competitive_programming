@@ -33,7 +33,7 @@ def det(C, mod):
         ans %= mod
 
         for j in range(i + 1, n):
-            factor = C[j][i] * invf
+            factor = C[j][i] * invf % mod
             for k in range(i, n):
                 C[j][k] -= factor * C[i][k]
                 C[j][k] %= mod
