@@ -1,4 +1,4 @@
-# 定数倍でTLEすることがある。ACLのsegtreeを使ったほうがよい。
+# 定数倍でTLEすることがある。必要に応じてACLのsegtreeと使い分けるとよい。
 
 
 def e():
@@ -45,6 +45,9 @@ class Segtree:
             vl = self.op(a, b, 2 * k + 1, ll, (ll + rr) // 2)
             vr = self.op(a, b, 2 * k + 2, (ll + rr) // 2, rr)
             return op(vl, vr)
+
+
+# 以下は抽象化前のもの
 
 
 class SegtreeMin:  # 最小値を求める用
