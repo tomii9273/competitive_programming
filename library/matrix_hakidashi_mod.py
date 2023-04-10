@@ -1,4 +1,4 @@
-def inv(x, mod):
+def inv(x: int, mod: int) -> int:
     """x の mod での逆元を返す。modが素数で、xとmodが互いに素である必要あり。"""
     x %= mod
     if x == 2:
@@ -6,7 +6,7 @@ def inv(x, mod):
     return pow(x, mod - 2, mod)
 
 
-def det_matrix(C, mod):
+def det_matrix(C: list, mod: int) -> int:
     """
     正方行列 C の行列式を mod (素数) で求める。
     掃き出し法 (ガウス・ジョルダンの消去法) を用いて (行基本変形を繰り返して) 、上三角行列にし、対角成分の積を求める。
@@ -45,7 +45,7 @@ def det_matrix(C, mod):
     return ans
 
 
-def inv_matrix(C, mod):
+def inv_matrix(C: list, mod: int):
     """
     正方行列 C の逆行列を mod (素数) で求める。存在しない場合は -1 を返す。
     掃き出し法 (ガウス・ジョルダンの消去法) を用いて (行基本変形を繰り返して) 、
