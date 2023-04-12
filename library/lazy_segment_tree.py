@@ -66,8 +66,18 @@ class LazySegtree:
 
     def update(self, i, x):
         """i 番目の値を x に更新。O(log n)"""
-        j = self.size2 + i - 1
+        # i 番目が含まれるノードについて、上から下まで、遅延させていた評価を完了させる
+        j = self.size2 + i
+        for i in range(self.size_log, -1, -1):
+            self._eval((j >> i) - 1)
+        # 一番下の更新
+        j -= 1
         self.tree[j] = x
+        # 下から上まで更新
+        while j > 0:
+            j = (j - 1) // 2
+            self.tree[j] = op(self.tree[2 * j + 1], self.tree[2 * j + 2])
+        j -= 1
         while j > 0:
             j = (j - 1) // 2
             self.tree[j] = op(self.tree[2 * j + 1], self.tree[2 * j + 2])
