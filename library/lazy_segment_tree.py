@@ -77,10 +77,6 @@ class LazySegtree:
         while j > 0:
             j = (j - 1) // 2
             self.tree[j] = op(self.tree[2 * j + 1], self.tree[2 * j + 2])
-        j -= 1
-        while j > 0:
-            j = (j - 1) // 2
-            self.tree[j] = op(self.tree[2 * j + 1], self.tree[2 * j + 2])
 
     def apply(self, a, b, x, k=0, ll=0, rr=None):
         """
