@@ -36,13 +36,16 @@ class LazySegtree:
         # size は最初に定めたサイズ、size2 は 2 の累乗の値をとるサイズ (>=size)
         self.size = n
         i = 1
+        size_log = 0
         while i < n:
             i *= 2
+            size_log += 1
         self.e = e()
         self.id = id()
         self.tree = [self.e for _ in range(2 * i - 1)]
         self.lazy = [self.id for _ in range(2 * i - 1)]
         self.size2 = i
+        self.size_log = size_log
 
     def __getitem__(self, i):
         """[i] で i 番目の値を得られる。O(log n)"""
