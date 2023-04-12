@@ -44,7 +44,7 @@ class Segtree:
         if rr is None:
             rr = self.size2
         if rr <= a or b <= ll:
-            return self.f
+            return self.e
         elif a <= ll and rr <= b:
             return self.tree[k]
         else:
