@@ -18,6 +18,7 @@ class Segtree:
         i = 1
         while i < n:
             i *= 2
+        self.op = op
         self.e = e()
         self.tree = [self.e for _ in range(2 * i - 1)]
         self.size2 = i
@@ -50,12 +51,12 @@ class Segtree:
         while a < b:
             # a が右ノードならば、その値を演算結果に結合する
             if a % 2 == 1:
-                ans = op(ans, self.tree[a - 1])
+                ans = self.op(ans, self.tree[a - 1])
                 a += 1
             a //= 2
             # b が左ノードならば、その値を演算結果に結合する
             if b % 2 == 1:
-                ans = op(ans, self.tree[b - 2])
+                ans = self.op(ans, self.tree[b - 2])
             b //= 2
         return ans
 
