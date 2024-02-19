@@ -1,29 +1,29 @@
-# 以下の op, e, mapping, composition, id は、区間を最小値で更新し、区間和を求めるような遅延評価セグメント木を作る場合の例。
+# 以下の op, e, mapping, composition, id は、区間に x を加算し、区間最小値を求める (Range Add Range Min) ような遅延評価セグメント木を作る場合の例。
 
 
 def op(x0, x1):
     # 木に入っているもの x0, x1 の演算を返すようにする (演算は結合法則を満たす必要があるが、可換でなくてもよい) 。
-    return x0 + x1
+    return min(x0, x1)
 
 
 def e():
     # op の単位元を返す。
-    return 0
+    return float("inf")
 
 
 def mapping(x, f):
     # 木に入っているもの x に関数 f を作用させる。
-    return min(x, f)
+    return x + f
 
 
 def composition(f0, f1):
     # 関数 f0 と f1 の合成 (f0 をしてから f1 をする、という順序) (演算は結合法則を満たす必要があるが、可換でなくてもよい) 。
-    return min(f0, f1)
+    return f0 + f1
 
 
 def id():
     # composition の単位元を返す。
-    return float("inf")
+    return 0
 
 
 class LazySegtree:
