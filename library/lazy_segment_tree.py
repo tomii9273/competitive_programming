@@ -1,4 +1,4 @@
-# 以下の op, e, mapping, composition, id は、区間に x を加算し、区間最小値を求める (Range Add Range Min) ような遅延評価セグメント木を作る場合の例。
+# 以下の op, e, mapping, composition, id は、区間に加算し、区間最小値を求める (Range Add Range Min) ような遅延評価セグメント木を作る場合の例。
 
 
 def op(x0, x1):
