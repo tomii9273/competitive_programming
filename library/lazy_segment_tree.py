@@ -42,6 +42,9 @@ class LazySegtree:
             size_log += 1
         self.e = e()
         self.id = id()
+        self.mapping = mapping
+        self.composition = composition
+        self.op = op
         self.tree = [self.e for _ in range(2 * i - 1)]
         self.lazy = [self.id for _ in range(2 * i - 1)]
         self.size2 = i
@@ -59,9 +62,9 @@ class LazySegtree:
         if lazy_k == self.id:
             return
         if k < self.size2 - 1:
-            self.lazy[2 * k + 1] = composition(self.lazy[2 * k + 1], lazy_k)
-            self.lazy[2 * k + 2] = composition(self.lazy[2 * k + 2], lazy_k)
-        self.tree[k] = mapping(self.tree[k], lazy_k)
+            self.lazy[2 * k + 1] = self.composition(self.lazy[2 * k + 1], lazy_k)
+            self.lazy[2 * k + 2] = self.composition(self.lazy[2 * k + 2], lazy_k)
+        self.tree[k] = self.mapping(self.tree[k], lazy_k)
         self.lazy[k] = self.id
 
     def update(self, i, x):
@@ -76,7 +79,7 @@ class LazySegtree:
         # 下から上まで更新
         while j > 0:
             j = (j - 1) // 2
-            self.tree[j] = op(self.tree[2 * j + 1], self.tree[2 * j + 2])
+            self.tree[j] = self.op(self.tree[2 * j + 1], self.tree[2 * j + 2])
 
     def apply(self, a, b, x, k=0, ll=0, rr=None):
         """
@@ -87,12 +90,12 @@ class LazySegtree:
             rr = self.size2
         self._eval(k)
         if a <= ll and rr <= b:
-            self.lazy[k] = composition(self.lazy[k], x)
+            self.lazy[k] = self.composition(self.lazy[k], x)
             self._eval(k)
         elif a < rr and ll < b:  # [ll, rr) が [a, b) に含まれないが、共通部分はある場合
             self.apply(a, b, x, 2 * k + 1, ll, (ll + rr) // 2)
             self.apply(a, b, x, 2 * k + 2, (ll + rr) // 2, rr)
-            self.tree[k] = op(self.tree[2 * k + 1], self.tree[2 * k + 2])
+            self.tree[k] = self.op(self.tree[2 * k + 1], self.tree[2 * k + 2])
 
     def prod(self, a, b, k=0, ll=0, rr=None):
         """
@@ -109,4 +112,4 @@ class LazySegtree:
         else:
             vl = self.prod(a, b, 2 * k + 1, ll, (ll + rr) // 2)
             vr = self.prod(a, b, 2 * k + 2, (ll + rr) // 2, rr)
-            return op(vl, vr)
+            return self.op(vl, vr)
