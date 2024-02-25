@@ -60,6 +60,10 @@ class Segtree:
             b //= 2
         return ans
 
+    def all_prod(self):
+        """全区間の演算結果を返す。O(1)"""
+        return self.tree[0]
+
 
 # 以下は抽象化前のもの
 
