@@ -18,6 +18,7 @@ class Segtree:
         i = 1
         while i < n:
             i *= 2
+        self.op = op
         self.e = e()
         self.tree = [self.e for _ in range(2 * i - 1)]
         self.size2 = i
@@ -36,21 +37,32 @@ class Segtree:
             j = (j - 1) // 2
             self.tree[j] = op(self.tree[2 * j + 1], self.tree[2 * j + 2])
 
-    def prod(self, a, b, k=0, ll=0, rr=None):
+    def prod(self, a, b):
         """
         区間 [a, b) の演算結果を返す。O(log n)
-        k は今見ている内部 index の番号、[ll, rr) は self.tree[k] が表す区間。
+        並立する子ノード 2 個のうち index の小さい方 = 0-indexed で奇数のノードを左ノード、
+        それ以外 (根を含む) = 0-indexed で偶数のノードを右ノードとすると、
+        任意の区間は「0 個以上の右ノード」と「0 個以上の左ノード」をこの順に繋げたもので表せる。
+        そのノード列を葉から根に向かって求めながら、演算していく。
         """
-        if rr is None:
-            rr = self.size2
-        if rr <= a or b <= ll:
-            return self.e
-        elif a <= ll and rr <= b:
-            return self.tree[k]
-        else:
-            vl = self.prod(a, b, 2 * k + 1, ll, (ll + rr) // 2)
-            vr = self.prod(a, b, 2 * k + 2, (ll + rr) // 2, rr)
-            return op(vl, vr)
+        ans = self.e
+        a += self.size2
+        b += self.size2
+        while a < b:
+            # a-1 が右ノードならば、その値を演算結果に結合する
+            if a % 2 == 1:
+                ans = self.op(ans, self.tree[a - 1])
+                a += 1
+            a //= 2
+            # b-2 が左ノードならば、その値を演算結果に結合する
+            if b % 2 == 1:
+                ans = self.op(ans, self.tree[b - 2])
+            b //= 2
+        return ans
+
+    def all_prod(self):
+        """全区間の演算結果を返す。O(1)"""
+        return self.tree[0]
 
 
 # 以下は抽象化前のもの
