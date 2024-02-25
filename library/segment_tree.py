@@ -49,12 +49,12 @@ class Segtree:
         a += self.size2
         b += self.size2
         while a < b:
-            # a が右ノードならば、その値を演算結果に結合する
+            # a-1 が右ノードならば、その値を演算結果に結合する
             if a % 2 == 1:
                 ans = self.op(ans, self.tree[a - 1])
                 a += 1
             a //= 2
-            # b が左ノードならば、その値を演算結果に結合する
+            # b-2 が左ノードならば、その値を演算結果に結合する
             if b % 2 == 1:
                 ans = self.op(ans, self.tree[b - 2])
             b //= 2
