@@ -13,6 +13,8 @@ for i in range(len(C)):
     IN[C[i][1]] += 1
 
 
+# A, 順番の制約なし、O(n + m)
+
 S = []
 s = 0
 
@@ -28,3 +30,25 @@ while s < len(S):
     s += 1
 
 print(*S)
+
+# B, 辞書順に並べる、O(n log n + m)
+
+from heapq import heappop, heappush
+
+Q = []
+
+for i in range(n):
+    if IN[i] == 0:
+        heappush(Q, i)
+
+ANS = []
+
+while Q:
+    i = heappop(Q)
+    ANS.append(i)
+    for x in M[i]:
+        IN[x] -= 1
+        if IN[x] == 0:
+            heappush(Q, x)
+
+print(*[i + 1 for i in ANS])
