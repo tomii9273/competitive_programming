@@ -51,4 +51,4 @@ while Q:
         if IN[x] == 0:
             heappush(Q, x)
 
-print(*[i + 1 for i in ANS])
+print(ANS)
