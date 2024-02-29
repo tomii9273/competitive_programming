@@ -1,9 +1,10 @@
-def sa_is(s_num: list) -> list:
+def sa_is(s_num_: list[int]) -> list[int]:
     """
-    SA-IS法。
-    整数からなるリストs_numを入力すると、s_numの接尾辞配列を出力する。
-    n = len(s_num), m = max(s_num) とすると、時間計算量:O(n * m)
+    SA-IS 法。
+    整数からなるリスト s_num_ を入力すると、s_num_ の接尾辞配列を出力する。
+    n = len(s_num_), m = max(s_num_) とすると、時間計算量:O(n * m)
     """
+    s_num = s_num_[:]
     n = len(s_num)  # リスト長
 
     # 最小値が1となるようにシフト
@@ -34,7 +35,7 @@ def sa_is(s_num: list) -> list:
             type_list[i] = 2
             LMS_list.append(i)
 
-    ### induced sorting 1回目（ここでは正しい接尾辞配列はまだ得られない。LMS-type接尾辞を、ほぼ辞書順に並べるためだけのもの。） ###
+    # ### induced sorting 1回目（ここでは正しい接尾辞配列はまだ得られない。LMS-type接尾辞を、ほぼ辞書順に並べるためだけのもの。） ###
 
     # LMS-substring(「LMS-type接尾辞の先頭文字～直後のLMS-type接尾辞の先頭文字」を切り取ったもの)の中に重複するものがない場合は、このsortingで
     # LMS-type接尾辞は完全に辞書順に並ぶ。重複がある場合は、それを含むLMS-type接尾辞は完全には辞書順に並ばないので、後述する再帰が必要となる。
@@ -75,10 +76,12 @@ def sa_is(s_num: list) -> list:
         if steps == 0:
             break
 
-    ### LMS-substringに重複があるかどうか確認 ###
+    # ### LMS-substringに重複があるかどうか確認 ###
 
     name = 0  # LMS-substringにつける名前としての数字（重複する接尾辞には同じ名前がつく）
-    prev_item = -1  # 下記のループ内で、前回閲覧したLMS-substringのindexを示す（LMS-substringは辞書順に並んでいるので、隣接するもの同士の比較だけで十分）
+
+    # 下記のループ内で、前回閲覧したLMS-substringのindexを示す（LMS-substringは辞書順に並んでいるので、隣接するもの同士の比較だけで十分）
+    prev_item = -1
     LMS_num = {}  # LMS-substringのindexと名前を保存する辞書
 
     # 辞書の作成
@@ -94,11 +97,13 @@ def sa_is(s_num: list) -> list:
             LMS_num[item] = name
 
     if name < len(LMS_list):  # 重複がある場合
-        sub_list = []  # LMS-substringの名前を、元々の（関数に与えたリストに含まれていたときの）順番で入れるためのリスト
+        # LMS-substringの名前を、元々の（関数に与えたリストに含まれていたときの）順番で入れるためのリスト
+        sub_list = []
         for item in LMS_list:
             sub_list.append(LMS_num[item])
 
-        sub_list_SAISed = sa_is(sub_list)  # 「LMS-substringの名前の列のリスト」を再帰的に関数に入力しているが、これにより、LMS-type接尾辞の辞書順における並び方を求めている
+        # 「LMS-substringの名前の列のリスト」を再帰的に関数に入力しているが、これにより、LMS-type接尾辞の辞書順における並び方を求めている
+        sub_list_SAISed = sa_is(sub_list)
 
         LMS_list = [LMS_list[item] for item in sub_list_SAISed]  # 上の行の結果をもとに、LMS-type接尾辞を辞書順に並べる
 
@@ -111,7 +116,7 @@ def sa_is(s_num: list) -> list:
 
     LMS_list = [LMS_list[len(LMS_list) - 1 - i] for i in range(len(LMS_list))]  # induced sortingのために逆順にしておく
 
-    ### induced sorting 2回目（今回はLMS-type接尾辞を正しい順番で格納する。今回のsort後に得られる配列が、接尾辞配列となる。） ###
+    # ### induced sorting 2回目（今回はLMS-type接尾辞を正しい順番で格納する。今回のsort後に得られる配列が、接尾辞配列となる。）
 
     bac = [-1] * n  # induced sortingのための先頭文字バケットを作成
 
@@ -151,7 +156,7 @@ def sa_is(s_num: list) -> list:
     return bac
 
 
-def make_suffix_array(s_num: list) -> list:
+def make_suffix_array(s_num: list[int]) -> list[int]:
     """
     Manber & Myers のアルゴリズム。
     整数からなるリストs_numを入力すると、s_numの接尾辞配列を出力する。
@@ -196,3 +201,123 @@ def make_suffix_array(s_num: list) -> list:
         shift *= 2
 
     return [L[i][2] for i in range(n)]
+
+
+def make_lcp_array(array: list[int], suffix_array: list[int]) -> list[int]:
+    """
+    Kasai のアルゴリズムで、元々の配列と接尾辞配列から LCP 配列
+    (一つ前の接尾辞との最長共通接頭辞の長さの配列) を構築する。
+    時間計算量は O(len(array))。
+    """
+
+    assert len(array) == len(suffix_array)
+
+    n = len(suffix_array)
+    index_list = [0] * n
+    for i in range(n):
+        index_list[suffix_array[i]] = i  # 接尾辞配列の各値があるindexを保存するリスト
+
+    lcp_array = [-1] * n
+    lcp_array[0] = 0
+    h = 0
+
+    for i in range(n):
+        ind_i = index_list[i]
+        if ind_i == 0:
+            continue
+        j = suffix_array[ind_i - 1]
+        while i + h <= n - 1 and j + h <= n - 1 and array[i + h] == array[j + h]:
+            h += 1
+        lcp_array[ind_i] = h
+        h = max(0, h - 1)
+
+    return lcp_array
+
+
+from min_queue import MinQueue
+
+
+def longest_common_substring(str_list: list[str]) -> tuple[int, list[int]]:
+    """
+    str_list 内の全ての文字列に共通して現れる最長の部分文字列を 1 つ探し、その長さ・各文字列での開始位置 (存在しない場合は -1) を返す。
+    文字列が 1 つの場合は、その文字列に (異なる開始位置で) 複数回現れる最長の部分文字列を 1 つ探し、
+    その長さ・開始位置 2 か所 (存在しない場合は -1) を返す。
+    文字列は英字大文字・小文字のみ対応。時間計算量は O(文字列長の合計)。
+    参考: https://tech.retrieva.jp/entry/2020/06/02/124543
+    """
+    n_str = len(str_list)
+    s = []
+    index_to_strno = []  # 何文字目が何番目の文字列由来か
+
+    # 文字列を数値に変換して繋げる
+    for i in range(n_str):
+        s += [ord(c) - ord("A") for c in str_list[i]]
+        s += [100 + i]  # 終端文字、区切り文字
+        index_to_strno += [i] * (len(str_list[i]) + 1)
+
+    suffix_array = sa_is(s)
+    lcp_array = make_lcp_array(s, suffix_array)
+
+    # 文字列が 1 つの場合
+    if n_str == 1:
+        max_length = max(lcp_array)
+        if max_length == 0:
+            return 0, [-1, -1]
+        else:
+            ind = lcp_array.index(max_length)
+            return max_length, sorted([suffix_array[ind], suffix_array[ind - 1]])
+
+    # 以降では、接尾辞配列・LCP 配列上で尺取り法のようにして枠を移動させ、最長の部分文字列を探す
+
+    max_length = 0  # 共通して現れる最長の部分文字列の長さ
+    ans = [-1] * n_str  # 各文字列での最長の部分文字列の開始位置
+
+    distinct = 0  # 枠内の文字列の種類数
+    now = [0] * n_str  # 枠内の各種類の文字列の個数
+    rightest = [-1] * n_str  # 枠内の各種類の文字列のうち一番右 (後) のものの index
+    ind_left = 0  # 枠の左端
+
+    minq = MinQueue()  # LCP 配列管理用
+    pop_cnt = 0  # minq から pop する回数の管理用
+
+    for i in range(len(s)):
+        # 種類数が足りない場合、枠を右に広げる
+        if distinct < n_str:
+            tmp_ind = index_to_strno[suffix_array[i]]
+            now[tmp_ind] += 1
+            if now[tmp_ind] == 1:
+                distinct += 1
+            rightest[tmp_ind] = suffix_array[i]
+            minq.push(lcp_array[i])
+
+        # 種類数が十分な場合、枠の左を可能な限り狭めてから max_length 候補を取得
+        if distinct == n_str:
+            while True:
+                tmp_ind = index_to_strno[suffix_array[ind_left]]
+                if now[tmp_ind] == 1:
+                    break
+                now[tmp_ind] -= 1
+                pop_cnt += 1
+                ind_left += 1
+
+            # LCP 配列は「1 つ前」との比較なので、lcp_array[枠の左端] は考慮すべきでない。そのため 1 つ多く削除する。
+            while pop_cnt > -1:
+                minq.pop()
+                pop_cnt -= 1
+
+            if minq.get_min() > max_length:
+                max_length = minq.get_min()
+                shift = 0
+                ans = []
+                for i in range(n_str):
+                    ans.append(rightest[i] - shift)
+                    shift += len(str_list[i]) + 1
+
+            # 枠の左をもう一つ狭めて、種類数が十分な状態から足りない状態へ移行
+            tmp_ind = index_to_strno[suffix_array[ind_left]]
+            now[tmp_ind] -= 1
+            distinct -= 1
+            pop_cnt += 1
+            ind_left += 1
+
+    return max_length, ans
