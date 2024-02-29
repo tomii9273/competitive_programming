@@ -231,3 +231,88 @@ def make_lcp_array(array: list[int], suffix_array: list[int]) -> list[int]:
         h = max(0, h - 1)
 
     return lcp_array
+
+
+from min_queue import MinQueue
+
+
+def longest_common_substring(str_list: list[str]) -> tuple[int, list[int]]:
+    """
+    str_list 内の全ての文字列に共通して現れる最長の部分文字列を 1 つ探し、その長さ・各文字列での開始位置 (存在しない場合は -1) を返す。
+    文字列が 1 つの場合は、その文字列に (異なる開始位置で) 複数回現れる最長の部分文字列を 1 つ探し、
+    その長さ・開始位置 2 か所 (存在しない場合は -1) を返す。
+    """
+    n_str = len(str_list)
+    s = []
+    index_to_strno = []  # 何文字目が何番目の文字列由来か
+
+    # 文字列を数値に変換して繋げる
+    for i in range(n_str):
+        s += [ord(c) - ord("A") for c in str_list[i]]
+        s += [100 + i]  # 終端文字、区切り文字
+        index_to_strno += [i] * (len(str_list[i]) + 1)
+
+    suffix_array = sa_is(s)
+    lcp_array = make_lcp_array(s, suffix_array)
+
+    # 文字列が 1 つの場合
+    if n_str == 1:
+        max_length = max(lcp_array)
+        if max_length == 0:
+            return 0, [-1, -1]
+        else:
+            ind = lcp_array.index(max_length)
+            return max_length, sorted([suffix_array[ind], suffix_array[ind - 1]])
+
+    max_length = 0  # 共通して現れる最長の部分文字列の長さ
+    ans = [-1] * n_str  # 各文字列での最長の部分文字列の開始位置
+
+    distinct = 0  # 枠内の文字列の種類数
+    now = [0] * n_str  # 枠内の各種類の文字列の個数
+    rightest = [-1] * n_str  # 枠内の各種類の文字列のうち一番右 (後) のものの index
+    ind_left = 0  # 枠の左端
+
+    minq = MinQueue()  # LCP 配列管理用
+    pop_cnt = 0  # minq から pop する回数の管理用
+
+    for i in range(len(s)):
+        # 種類数が足りない場合、枠を右に広げる
+        if distinct < n_str:
+            tmp_ind = index_to_strno[suffix_array[i]]
+            now[tmp_ind] += 1
+            if now[tmp_ind] == 1:
+                distinct += 1
+            rightest[tmp_ind] = suffix_array[i]
+            minq.push(lcp_array[i])
+
+        # 種類数が十分な場合、枠の左を可能な限り狭めてから max_length 候補を取得
+        if distinct == n_str:
+            while True:
+                tmp_ind = index_to_strno[suffix_array[ind_left]]
+                if now[tmp_ind] == 1:
+                    break
+                now[tmp_ind] -= 1
+                pop_cnt += 1
+                ind_left += 1
+
+            # LCP 配列は「1 つ前」との比較なので、lcp_array[枠の左端] は考慮すべきでない。そのため 1 つ多く削除する。
+            while pop_cnt > -1:
+                minq.pop()
+                pop_cnt -= 1
+
+            if minq.get_min() > max_length:
+                max_length = minq.get_min()
+                shift = 0
+                ans = []
+                for i in range(n_str):
+                    ans.append(rightest[i] - shift)
+                    shift += len(str_list[i]) + 1
+
+            # 枠の左をもう一つ狭めて、種類数が十分な状態から足りない状態へ移行
+            tmp_ind = index_to_strno[suffix_array[ind_left]]
+            now[tmp_ind] -= 1
+            distinct -= 1
+            pop_cnt += 1
+            ind_left += 1
+
+    return max_length, ans
