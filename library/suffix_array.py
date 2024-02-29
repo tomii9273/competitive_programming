@@ -1,4 +1,4 @@
-def sa_is(s_num_: list) -> list:
+def sa_is(s_num_: list[int]) -> list[int]:
     """
     SA-IS 法。
     整数からなるリスト s_num_ を入力すると、s_num_ の接尾辞配列を出力する。
@@ -156,7 +156,7 @@ def sa_is(s_num_: list) -> list:
     return bac
 
 
-def make_suffix_array(s_num: list) -> list:
+def make_suffix_array(s_num: list[int]) -> list[int]:
     """
     Manber & Myers のアルゴリズム。
     整数からなるリストs_numを入力すると、s_numの接尾辞配列を出力する。
