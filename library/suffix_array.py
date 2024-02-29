@@ -206,7 +206,8 @@ def make_suffix_array(s_num: list[int]) -> list[int]:
 def make_lcp_array(array: list[int], suffix_array: list[int]) -> list[int]:
     """
     Kasai のアルゴリズムで、元々の配列と接尾辞配列から LCP 配列
-    (一つ前の接尾辞との最長共通接頭辞の長さの配列) を構築。O(len(array))
+    (一つ前の接尾辞との最長共通接頭辞の長さの配列) を構築する。
+    時間計算量は O(len(array))。
     """
 
     assert len(array) == len(suffix_array)
@@ -241,6 +242,7 @@ def longest_common_substring(str_list: list[str]) -> tuple[int, list[int]]:
     str_list 内の全ての文字列に共通して現れる最長の部分文字列を 1 つ探し、その長さ・各文字列での開始位置 (存在しない場合は -1) を返す。
     文字列が 1 つの場合は、その文字列に (異なる開始位置で) 複数回現れる最長の部分文字列を 1 つ探し、
     その長さ・開始位置 2 か所 (存在しない場合は -1) を返す。
+    文字列は英字大文字・小文字のみ対応。時間計算量は O(文字列長の合計)。
     """
     n_str = len(str_list)
     s = []
