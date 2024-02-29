@@ -201,3 +201,33 @@ def make_suffix_array(s_num: list[int]) -> list[int]:
         shift *= 2
 
     return [L[i][2] for i in range(n)]
+
+
+def make_lcp_array(array: list[int], suffix_array: list[int]) -> list[int]:
+    """
+    Kasai のアルゴリズムで、元々の配列と接尾辞配列から LCP 配列
+    (一つ前の接尾辞との最長共通接頭辞の長さの配列) を構築。O(len(array))
+    """
+
+    assert len(array) == len(suffix_array)
+
+    n = len(suffix_array)
+    index_list = [0] * n
+    for i in range(n):
+        index_list[suffix_array[i]] = i  # 接尾辞配列の各値があるindexを保存するリスト
+
+    lcp_array = [-1] * n
+    lcp_array[0] = 0
+    h = 0
+
+    for i in range(n):
+        ind_i = index_list[i]
+        if ind_i == 0:
+            continue
+        j = suffix_array[ind_i - 1]
+        while i + h <= n - 1 and j + h <= n - 1 and array[i + h] == array[j + h]:
+            h += 1
+        lcp_array[ind_i] = h
+        h = max(0, h - 1)
+
+    return lcp_array
