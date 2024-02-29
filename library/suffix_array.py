@@ -34,7 +34,7 @@ def sa_is(s_num: list) -> list:
             type_list[i] = 2
             LMS_list.append(i)
 
-    ### induced sorting 1回目（ここでは正しい接尾辞配列はまだ得られない。LMS-type接尾辞を、ほぼ辞書順に並べるためだけのもの。） ###
+    # ### induced sorting 1回目（ここでは正しい接尾辞配列はまだ得られない。LMS-type接尾辞を、ほぼ辞書順に並べるためだけのもの。） ###
 
     # LMS-substring(「LMS-type接尾辞の先頭文字～直後のLMS-type接尾辞の先頭文字」を切り取ったもの)の中に重複するものがない場合は、このsortingで
     # LMS-type接尾辞は完全に辞書順に並ぶ。重複がある場合は、それを含むLMS-type接尾辞は完全には辞書順に並ばないので、後述する再帰が必要となる。
@@ -75,10 +75,12 @@ def sa_is(s_num: list) -> list:
         if steps == 0:
             break
 
-    ### LMS-substringに重複があるかどうか確認 ###
+    # ### LMS-substringに重複があるかどうか確認 ###
 
     name = 0  # LMS-substringにつける名前としての数字（重複する接尾辞には同じ名前がつく）
-    prev_item = -1  # 下記のループ内で、前回閲覧したLMS-substringのindexを示す（LMS-substringは辞書順に並んでいるので、隣接するもの同士の比較だけで十分）
+
+    # 下記のループ内で、前回閲覧したLMS-substringのindexを示す（LMS-substringは辞書順に並んでいるので、隣接するもの同士の比較だけで十分）
+    prev_item = -1
     LMS_num = {}  # LMS-substringのindexと名前を保存する辞書
 
     # 辞書の作成
@@ -94,11 +96,13 @@ def sa_is(s_num: list) -> list:
             LMS_num[item] = name
 
     if name < len(LMS_list):  # 重複がある場合
-        sub_list = []  # LMS-substringの名前を、元々の（関数に与えたリストに含まれていたときの）順番で入れるためのリスト
+        # LMS-substringの名前を、元々の（関数に与えたリストに含まれていたときの）順番で入れるためのリスト
+        sub_list = []
         for item in LMS_list:
             sub_list.append(LMS_num[item])
 
-        sub_list_SAISed = sa_is(sub_list)  # 「LMS-substringの名前の列のリスト」を再帰的に関数に入力しているが、これにより、LMS-type接尾辞の辞書順における並び方を求めている
+        # 「LMS-substringの名前の列のリスト」を再帰的に関数に入力しているが、これにより、LMS-type接尾辞の辞書順における並び方を求めている
+        sub_list_SAISed = sa_is(sub_list)
 
         LMS_list = [LMS_list[item] for item in sub_list_SAISed]  # 上の行の結果をもとに、LMS-type接尾辞を辞書順に並べる
 
@@ -111,7 +115,7 @@ def sa_is(s_num: list) -> list:
 
     LMS_list = [LMS_list[len(LMS_list) - 1 - i] for i in range(len(LMS_list))]  # induced sortingのために逆順にしておく
 
-    ### induced sorting 2回目（今回はLMS-type接尾辞を正しい順番で格納する。今回のsort後に得られる配列が、接尾辞配列となる。） ###
+    # ### induced sorting 2回目（今回はLMS-type接尾辞を正しい順番で格納する。今回のsort後に得られる配列が、接尾辞配列となる。）
 
     bac = [-1] * n  # induced sortingのための先頭文字バケットを作成
 
