@@ -243,6 +243,7 @@ def longest_common_substring(str_list: list[str]) -> tuple[int, list[int]]:
     文字列が 1 つの場合は、その文字列に (異なる開始位置で) 複数回現れる最長の部分文字列を 1 つ探し、
     その長さ・開始位置 2 か所 (存在しない場合は -1) を返す。
     文字列は英字大文字・小文字のみ対応。時間計算量は O(文字列長の合計)。
+    参考: https://tech.retrieva.jp/entry/2020/06/02/124543
     """
     n_str = len(str_list)
     s = []
@@ -265,6 +266,8 @@ def longest_common_substring(str_list: list[str]) -> tuple[int, list[int]]:
         else:
             ind = lcp_array.index(max_length)
             return max_length, sorted([suffix_array[ind], suffix_array[ind - 1]])
+
+    # 以降では、接尾辞配列・LCP 配列上で尺取り法のようにして枠を移動させ、最長の部分文字列を探す
 
     max_length = 0  # 共通して現れる最長の部分文字列の長さ
     ans = [-1] * n_str  # 各文字列での最長の部分文字列の開始位置
