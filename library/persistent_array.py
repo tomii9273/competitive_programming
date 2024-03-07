@@ -55,7 +55,7 @@ class PersistentArrayBit:
             mask >>= 1
         return self.tree[ind] >> 60
 
-    def update(self, t_old: int, t_new: int, i: int, val: int):
+    def update(self, t_old: int, t_new: int, i: int, val: int) -> None:
         """version t_old の index i を val に変更したものを version t_new とする。O(log n)"""
         assert 0 <= t_old < len(self.ver_list) and self.ver_list[t_old] != -1, f"No such version exists: {t_old}"
         assert 0 <= i < self.size2, i
@@ -159,7 +159,7 @@ class PersistentArray:
             mask >>= 1
         return self.tree[ind].val
 
-    def update(self, t_old: int, t_new: int, i: int, val):
+    def update(self, t_old: int, t_new: int, i: int, val) -> None:
         """version t_old の index i を val に変更したものを version t_new とする。O(log n)"""
         assert 0 <= t_old < len(self.ver_list) and self.ver_list[t_old] != -1, f"No such version exists: {t_old}"
         assert 0 <= i < self.size2, i
