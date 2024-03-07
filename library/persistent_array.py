@@ -80,6 +80,10 @@ class PersistentArrayBit:
             mask >>= 1
         self.tree.append(val << 60)
 
+    def copy(self, t_old: int, t_new: int) -> None:
+        """version t_old を version t_new にコピーする。O(log n)"""
+        self.update(t_old, t_new, 0, self.get(t_old, 0))
+
     def get_all(self, t: int) -> list[int]:
         """version t における配列を出力。O(n)"""
         assert 0 <= t < len(self.ver_list) and self.ver_list[t] != -1, f"No such version exists: {t}"
@@ -177,6 +181,10 @@ class PersistentArray:
             self.tree.append(new_node)
             mask >>= 1
         self.tree.append(Node(val))
+
+    def copy(self, t_old: int, t_new: int) -> None:
+        """version t_old を version t_new にコピーする。O(log n)"""
+        self.update(t_old, t_new, 0, self.get(t_old, 0))
 
     def get_all(self, t: int) -> list:
         """version t における配列を出力。O(n)"""
