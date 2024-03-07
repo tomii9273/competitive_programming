@@ -92,6 +92,10 @@ class PersistentArrayBit:
             inds = new_inds
         return [self.tree[ind] >> 60 for ind in inds]
 
+    def __getitem__(self, ti: tuple[int, int]) -> int:
+        """ar[t, i] で ar.get(t, i) と同じことができる。O(log n)"""
+        return self.get(ti[0], ti[1])
+
 
 # -----
 
@@ -185,3 +189,7 @@ class PersistentArray:
                 new_inds.append(self.tree[ind].rch)
             inds = new_inds
         return [self.tree[ind].val for ind in inds]
+
+    def __getitem__(self, ti: tuple[int, int]):
+        """ar[t, i] で ar.get(t, i) と同じことができる。O(log n)"""
+        return self.get(ti[0], ti[1])
