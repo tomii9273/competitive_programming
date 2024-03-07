@@ -1,5 +1,8 @@
 class UnionFind:
-    """DSU (disjoint set union, 素集合データ構造) と同じ。"""
+    """
+    DSU (disjoint set union, 素集合データ構造) と同じ。
+    union by rank と経路圧縮の両方を導入しており、基本的な操作が O(alpha(n)) で行える。
+    """
 
     def __init__(self, n: int):
         """
@@ -13,18 +16,22 @@ class UnionFind:
         self._n_cc = n
 
     def leader(self, x: int) -> int:
-        """x が属する連結成分の代表元。O(log n)"""
+        """x が属する連結成分の代表元。O(alpha(n))"""
+        path = []
         while x >= 0:
+            path.append(x)
             ans = x
             x = self.parents[x]
+        for v in path[:-1]:  # 経路圧縮
+            self.parents[v] = ans
         return ans
 
     def size(self, x: int) -> int:
-        """x が属する連結成分のサイズ。O(log n)"""
+        """x が属する連結成分のサイズ。O(alpha(n))"""
         return -self.parents[self.leader(x)]
 
     def merge(self, x: int, y: int) -> int:
-        """x と y を辺でつなぐ。残ったほうの代表元を返す。O(log n)"""
+        """x と y を辺でつなぐ。残ったほうの代表元を返す。O(alpha(n))"""
         x = self.leader(x)
         y = self.leader(y)
         if x == y:
@@ -39,11 +46,11 @@ class UnionFind:
         return x
 
     def same(self, x: int, y: int) -> bool:
-        """x と y が連結かどうか。O(log n)"""
+        """x と y が連結かどうか。O(alpha(n))"""
         return self.leader(x) == self.leader(y)
 
     def groups(self) -> list[int]:
-        """連結成分ごとの頂点リスト。O(n log n)"""
+        """連結成分ごとの頂点リスト。O(n alpha(n))"""
         n = self.n
         leader_index = [-1] * n
         ind = 0
@@ -62,9 +69,9 @@ class UnionFind:
         return self._n_cc
 
     def min_index(self, x: int) -> int:
-        """x が属する連結成分の最小の元。O(log n)"""
+        """x が属する連結成分の最小の元。O(alpha(n))"""
         return self.min_index_for_leader[self.leader(x)]
 
     def max_index(self, x: int) -> int:
-        """x が属する連結成分の最大の元。O(log n)"""
+        """x が属する連結成分の最大の元。O(alpha(n))"""
         return self.max_index_for_leader[self.leader(x)]
