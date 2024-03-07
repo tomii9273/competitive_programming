@@ -1,7 +1,7 @@
 class UnionFind:
     """
     DSU (disjoint set union, 素集合データ構造) と同じ。
-    union by rank と経路圧縮の両方を導入しており、基本的な操作が O(alpha(n)) で行える。
+    union by size と経路圧縮の両方を導入しており、基本的な操作が O(alpha(n)) で行える。
     """
 
     def __init__(self, n: int):
