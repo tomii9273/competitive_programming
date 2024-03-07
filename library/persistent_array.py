@@ -3,7 +3,7 @@
 
 class PersistentArrayBit:
     """
-    永続配列 (完全二分木)。O(log n) で各種操作が可能。
+    全永続配列 (完全二分木)。O(log n) で各種操作が可能。
     高速化・メモリ節約のため、Node クラスを整数で代用し、下から 30 ビットを右の子ノードの index、
     その上の 30 ビットを左の子ノードの index、その上のビットを値として扱っている。
     そのため、サイズは 2^30 以下、入れるものは非負整数でなければならない。
@@ -115,7 +115,7 @@ class Node:
 
 
 class PersistentArray:
-    """永続配列 (完全二分木)。O(log n) で各種操作が可能。"""
+    """全永続配列 (完全二分木)。O(log n) で各種操作が可能。"""
 
     def __init__(self, n: int, default=0, lst: list = None, first_ver: int = 0):
         """
