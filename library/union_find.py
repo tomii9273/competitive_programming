@@ -7,11 +7,10 @@ class UnionFind:  # DSU（disjoint set union, 素集合データ構造）と同�
         self._n_cc = n
 
     def leader(self, x):  # xが属する連結成分の代表元
-        if self.parents[x] < 0:
-            return x
-        else:
-            self.parents[x] = self.leader(self.parents[x])
-            return self.parents[x]
+        while x >= 0:
+            ans = x
+            x = self.parents[x]
+        return ans
 
     def size(self, x):  # xが属する連結成分のサイズ
         return -self.parents[self.leader(x)]
