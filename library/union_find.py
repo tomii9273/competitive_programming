@@ -31,7 +31,7 @@ class UnionFind:
         return -self.parents[self.leader(x)]
 
     def merge(self, x: int, y: int) -> int:
-        """x と y を辺でつなぐ。残ったほうの代表元を返す。O(alpha(n))"""
+        """x と y を辺でつなぐ (union by size)。残ったほうの代表元を返す。O(alpha(n))"""
         x = self.leader(x)
         y = self.leader(y)
         if x == y:
@@ -39,6 +39,7 @@ class UnionFind:
         self._n_cc -= 1
         if self.parents[x] > self.parents[y]:
             x, y = y, x
+        # self.parents[x] <= self.parents[y] であり、(x の木のサイズ) >= (y の木のサイズ) である
         self.parents[x] += self.parents[y]
         self.parents[y] = x
         self.min_index_for_leader[x] = min(self.min_index_for_leader[x], self.min_index_for_leader[y])
