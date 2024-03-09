@@ -100,9 +100,9 @@ def tree_dist(i, j):
 # P: 各頂点の親のリスト
 # D: 各頂点の根からの距離のリスト
 
-le = 20  # log2(n)以上
+le = 20  # log2(n) 以上
 
-PS = [[-1] * le for i in range(n)]  # 頂点iの2^j個祖先の頂点を保存
+PS = [[-1] * le for i in range(n)]  # 頂点 i の 2^j 個祖先の頂点を保存
 
 for i in range(n):
     PS[i][0] = P[i]
@@ -112,8 +112,9 @@ for i in range(1, le):
             PS[j][i] = PS[PS[j][i - 1]][i - 1]
 
 
-def lca(i, j):  # iとjの最小共通祖先を求める
-    # iとjの根からの距離を揃える
+def lca(i, j):
+    """頂点 i, j の lowest common ancestor (最小共通祖先) を求める"""
+    # i と j の根からの距離を揃える
     if D[i] > D[j]:
         i, j = j, i
     d = D[j] - D[i]
@@ -124,6 +125,7 @@ def lca(i, j):  # iとjの最小共通祖先を求める
         d //= 2
         ind += 1
 
+    # 距離を揃えた時点で一致すればそれが LCA
     if i == j:
         return i
 
@@ -139,5 +141,6 @@ def lca(i, j):  # iとjの最小共通祖先を求める
     return P[i]
 
 
-def tree_dist(i, j):  # iとjの距離を求める
+def tree_dist(i, j):
+    """頂点 i, j 間の距離を求める"""
     return D[i] + D[j] - D[lca(i, j)] * 2
