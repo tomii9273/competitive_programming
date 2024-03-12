@@ -17,7 +17,7 @@ def manacher_algorithm(s: str, interval: bool = True) -> list[int]:
         S = list(s)
 
     R = [0] * len(S)
-    i = 0
+    i = 0  # 再利用される回文の中心位置
     j = 0  # S[i + j - 1] まで調べてある
     while i < len(S):
         while i - j >= 0 and i + j < len(S) and S[i - j] == S[i + j]:  # 一つずつ調べる
@@ -29,6 +29,19 @@ def manacher_algorithm(s: str, interval: bool = True) -> list[int]:
             k += 1
         i += k
         j -= k
+
+    # 以下は別の書き方だが、やっていることは同じ
+    # c = 0  # 再利用される回文の中心位置
+    # for i in range(len(S)):  # S[i + R[i] - 1] まで調べてある
+    #     le = c - (i - c)  # R[le] の結果を R[i] で再利用できるかもしれない
+    #     if i + R[le] < c + R[c]:  # 過去の結果をそのまま使えるなら使う
+    #         R[i] = R[le]
+    #     else:
+    #         j = c + R[c] - i
+    #         while i - j >= 0 and i + j < len(S) and S[i - j] == S[i + j]:  # 一つずつ調べる
+    #             j += 1
+    #         R[i] = j
+    #         c = i
 
     if interval:
         # ダミー文字の影響を除外
