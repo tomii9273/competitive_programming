@@ -127,7 +127,6 @@ class BinaryTrieBit:
             i = bool(x & b)
             if (self.tree[now] >> (30 * i)) & self.mask == 0:
                 self.tree.append(0)
-                # self.tree[now][i] = len(self.tree) - 1
                 if i:
                     self.tree[now] = (
                         (self.tree[now] >> 60 << 60) | ((len(self.tree) - 1) << 30) | (self.tree[now] & self.mask)
@@ -149,7 +148,6 @@ class BinaryTrieBit:
             i = bool(x & b)
             if (self.tree[now] >> (30 * i)) & self.mask == 0:
                 self.tree.append(0)
-                # self.tree[now][i] = len(self.tree) - 1
                 if i:
                     self.tree[now] = (
                         (self.tree[now] >> 60 << 60) | ((len(self.tree) - 1) << 30) | (self.tree[now] & self.mask)
@@ -211,7 +209,6 @@ class BinaryTrieBit:
         b = self.bit_start
         ans = 0
         while b:
-            # assert (self.tree[now] >> 60) > 0
             i = bool(x & b)
             if (self.tree[now] >> (30 * i)) & self.mask == 0 or self.tree[
                 (self.tree[now] >> (30 * i)) & self.mask
@@ -220,5 +217,4 @@ class BinaryTrieBit:
             ans ^= i * b
             now = (self.tree[now] >> (30 * i)) & self.mask
             b >>= 1
-        # assert (self.tree[now] >> 60) > 0
         return ans
